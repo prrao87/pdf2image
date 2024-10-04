@@ -1,5 +1,7 @@
 .env
 
+*.pdf
+
 # python gitignore
 __pycache__
 # Byte-compiled / optimized / DLL files

@@ -7,6 +7,15 @@ client<llm> GPT4o {
     api_key env.OPENAI_API_KEY
   }
 }
+  
+client<llm> Sonnet {
+  provider anthropic
+  options {
+    model "claude-3-5-sonnet-20240620"
+    api_key env.ANTHROPIC_API_KEY
+    temperature 0
+  }
+}
 
 client<llm> Claude {
   provider anthropic

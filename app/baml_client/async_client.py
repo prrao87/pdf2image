@@ -59,11 +59,11 @@ class BamlAsyncClient:
 
 
     
-    async def ExtractResume(
+    async def CheckPageHasTransactions(
         self,
-        resume: str,
+        statement_page: baml_py.Image,
         baml_options: BamlCallOptions = {},
-    ) -> types.Resume:
+    ) -> types.PageHasTransactions:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
         tb = __tb__._tb
@@ -72,15 +72,87 @@ class BamlAsyncClient:
       __cr__ = baml_options.get("client_registry", None)
 
       raw = await self.__runtime.call_function(
-        "ExtractResume",
+        "CheckPageHasTransactions",
         {
-          "resume": resume,
+          "statement_page": statement_page,
         },
         self.__ctx_manager.get(),
         tb,
         __cr__,
       )
-      mdl = create_model("ExtractResumeReturnType", inner=(types.Resume, ...))
+      mdl = create_model("CheckPageHasTransactionsReturnType", inner=(types.PageHasTransactions, ...))
+      return coerce(mdl, raw.parsed())
+    
+    async def ExtractFinancialSummaryData(
+        self,
+        statements: Union[List[baml_py.Image], List[str]],
+        baml_options: BamlCallOptions = {},
+    ) -> types.FinancialSummary:
+      __tb__ = baml_options.get("tb", None)
+      if __tb__ is not None:
+        tb = __tb__._tb
+      else:
+        tb = None
+      __cr__ = baml_options.get("client_registry", None)
+
+      raw = await self.__runtime.call_function(
+        "ExtractFinancialSummaryData",
+        {
+          "statements": statements,
+        },
+        self.__ctx_manager.get(),
+        tb,
+        __cr__,
+      )
+      mdl = create_model("ExtractFinancialSummaryDataReturnType", inner=(types.FinancialSummary, ...))
+      return coerce(mdl, raw.parsed())
+    
+    async def ExtractStatementPageTransactions(
+        self,
+        statement_page: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> List[types.Transaction]:
+      __tb__ = baml_options.get("tb", None)
+      if __tb__ is not None:
+        tb = __tb__._tb
+      else:
+        tb = None
+      __cr__ = baml_options.get("client_registry", None)
+
+      raw = await self.__runtime.call_function(
+        "ExtractStatementPageTransactions",
+        {
+          "statement_page": statement_page,
+        },
+        self.__ctx_manager.get(),
+        tb,
+        __cr__,
+      )
+      mdl = create_model("ExtractStatementPageTransactionsReturnType", inner=(List[types.Transaction], ...))
+      return coerce(mdl, raw.parsed())
+    
+    async def Hi(
+        self,
+        input: str,
+        baml_options: BamlCallOptions = {},
+    ) -> str:
+      __tb__ = baml_options.get("tb", None)
+      if __tb__ is not None:
+        tb = __tb__._tb
+      else:
+        tb = None
+      __cr__ = baml_options.get("client_registry", None)
+
+      raw = await self.__runtime.call_function(
+        "Hi",
+        {
+          "input": input,
+        },
+        self.__ctx_manager.get(),
+        tb,
+        __cr__,
+      )
+      mdl = create_model("HiReturnType", inner=(str, ...))
       return coerce(mdl, raw.parsed())
     
 
@@ -94,11 +166,11 @@ class BamlStreamClient:
       self.__ctx_manager = ctx_manager
 
     
-    def ExtractResume(
+    def CheckPageHasTransactions(
         self,
-        resume: str,
+        statement_page: baml_py.Image,
         baml_options: BamlCallOptions = {},
-    ) -> baml_py.BamlStream[partial_types.Resume, types.Resume]:
+    ) -> baml_py.BamlStream[partial_types.PageHasTransactions, types.PageHasTransactions]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
         tb = __tb__._tb
@@ -107,9 +179,9 @@ class BamlStreamClient:
       __cr__ = baml_options.get("client_registry", None)
 
       raw = self.__runtime.stream_function(
-        "ExtractResume",
+        "CheckPageHasTransactions",
         {
-          "resume": resume,
+          "statement_page": statement_page,
         },
         None,
         self.__ctx_manager.get(),
@@ -117,10 +189,109 @@ class BamlStreamClient:
         __cr__,
       )
 
-      mdl = create_model("ExtractResumeReturnType", inner=(types.Resume, ...))
-      partial_mdl = create_model("ExtractResumePartialReturnType", inner=(partial_types.Resume, ...))
+      mdl = create_model("CheckPageHasTransactionsReturnType", inner=(types.PageHasTransactions, ...))
+      partial_mdl = create_model("CheckPageHasTransactionsPartialReturnType", inner=(partial_types.PageHasTransactions, ...))
 
-      return baml_py.BamlStream[partial_types.Resume, types.Resume](
+      return baml_py.BamlStream[partial_types.PageHasTransactions, types.PageHasTransactions](
+        raw,
+        lambda x: coerce(partial_mdl, x),
+        lambda x: coerce(mdl, x),
+        self.__ctx_manager.get(),
+      )
+    
+    def ExtractFinancialSummaryData(
+        self,
+        statements: Union[List[baml_py.Image], List[str]],
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[partial_types.FinancialSummary, types.FinancialSummary]:
+      __tb__ = baml_options.get("tb", None)
+      if __tb__ is not None:
+        tb = __tb__._tb
+      else:
+        tb = None
+      __cr__ = baml_options.get("client_registry", None)
+
+      raw = self.__runtime.stream_function(
+        "ExtractFinancialSummaryData",
+        {
+          "statements": statements,
+        },
+        None,
+        self.__ctx_manager.get(),
+        tb,
+        __cr__,
+      )
+
+      mdl = create_model("ExtractFinancialSummaryDataReturnType", inner=(types.FinancialSummary, ...))
+      partial_mdl = create_model("ExtractFinancialSummaryDataPartialReturnType", inner=(partial_types.FinancialSummary, ...))
+
+      return baml_py.BamlStream[partial_types.FinancialSummary, types.FinancialSummary](
+        raw,
+        lambda x: coerce(partial_mdl, x),
+        lambda x: coerce(mdl, x),
+        self.__ctx_manager.get(),
+      )
+    
+    def ExtractStatementPageTransactions(
+        self,
+        statement_page: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[List[partial_types.Transaction], List[types.Transaction]]:
+      __tb__ = baml_options.get("tb", None)
+      if __tb__ is not None:
+        tb = __tb__._tb
+      else:
+        tb = None
+      __cr__ = baml_options.get("client_registry", None)
+
+      raw = self.__runtime.stream_function(
+        "ExtractStatementPageTransactions",
+        {
+          "statement_page": statement_page,
+        },
+        None,
+        self.__ctx_manager.get(),
+        tb,
+        __cr__,
+      )
+
+      mdl = create_model("ExtractStatementPageTransactionsReturnType", inner=(List[types.Transaction], ...))
+      partial_mdl = create_model("ExtractStatementPageTransactionsPartialReturnType", inner=(List[partial_types.Transaction], ...))
+
+      return baml_py.BamlStream[List[partial_types.Transaction], List[types.Transaction]](
+        raw,
+        lambda x: coerce(partial_mdl, x),
+        lambda x: coerce(mdl, x),
+        self.__ctx_manager.get(),
+      )
+    
+    def Hi(
+        self,
+        input: str,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[Optional[str], str]:
+      __tb__ = baml_options.get("tb", None)
+      if __tb__ is not None:
+        tb = __tb__._tb
+      else:
+        tb = None
+      __cr__ = baml_options.get("client_registry", None)
+
+      raw = self.__runtime.stream_function(
+        "Hi",
+        {
+          "input": input,
+        },
+        None,
+        self.__ctx_manager.get(),
+        tb,
+        __cr__,
+      )
+
+      mdl = create_model("HiReturnType", inner=(str, ...))
+      partial_mdl = create_model("HiPartialReturnType", inner=(Optional[str], ...))
+
+      return baml_py.BamlStream[Optional[str], str](
         raw,
         lambda x: coerce(partial_mdl, x),
         lambda x: coerce(mdl, x),
