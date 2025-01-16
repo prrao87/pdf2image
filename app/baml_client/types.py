@@ -16,7 +16,27 @@
 import baml_py
 from enum import Enum
 from pydantic import BaseModel, ConfigDict
-from typing import Dict, List, Optional, Union
+from typing import Dict, Generic, List, Literal, Optional, TypeVar, Union, TypeAlias
+
+
+T = TypeVar('T')
+CheckName = TypeVar('CheckName', bound=str)
+
+class Check(BaseModel):
+    name: str
+    expression: str
+    status: str
+
+class Checked(BaseModel, Generic[T,CheckName]):
+    value: T
+    checks: Dict[CheckName, Check]
+
+def get_checks(checks: Dict[CheckName, Check]) -> List[Check]:
+    return list(checks.values())
+
+def all_succeeded(checks: Dict[CheckName, Check]) -> bool:
+    return all(check.status == "succeeded" for check in get_checks(checks))
+
 
 
 class TransactionType(str, Enum):
@@ -26,14 +46,10 @@ class TransactionType(str, Enum):
     Other = "Other"
 
 class EndingBalanceItem(BaseModel):
-    
-    
     date: str
     amount: float
 
 class FinancialSummary(BaseModel):
-    
-    
     bank_name: str
     business_name: str
     business_account_number: str
@@ -42,14 +58,10 @@ class FinancialSummary(BaseModel):
     ending_balances: List["EndingBalanceItem"]
 
 class PageHasTransactions(BaseModel):
-    
-    
     page_number: int
     has_transactions: bool
 
 class Transaction(BaseModel):
-    
-    
     date: str
     description: Union[str, Optional[None]]
     amount: float

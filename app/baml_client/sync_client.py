@@ -13,7 +13,7 @@
 # flake8: noqa: E501,F401
 # pylint: disable=unused-import,line-too-long
 # fmt: off
-from typing import Any, Dict, List, Optional, TypeVar, Union, TypedDict, Type
+from typing import Any, Dict, List, Optional, TypeVar, Union, TypedDict, Type, Literal, cast
 from typing_extensions import NotRequired
 import pprint
 
@@ -21,21 +21,11 @@ import baml_py
 from pydantic import BaseModel, ValidationError, create_model
 
 from . import partial_types, types
+from .types import Checked, Check
 from .type_builder import TypeBuilder
 from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_CTX, DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME
 
 OutputType = TypeVar('OutputType')
-
-def coerce(cls: Type[BaseModel], parsed: Any) -> Any:
-  try:
-    return cls.model_validate({"inner": parsed}).inner # type: ignore
-  except ValidationError as e:
-    raise TypeError(
-      "Internal BAML error while casting output to {}\n{}".format(
-        cls.__name__,
-        pprint.pformat(parsed)
-      )
-    ) from e
 
 # Define the TypedDict with optional parameters having default values
 class BamlCallOptions(TypedDict, total=False):
@@ -64,7 +54,7 @@ class BamlSyncClient:
     ) -> types.PageHasTransactions:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -78,8 +68,7 @@ class BamlSyncClient:
         tb,
         __cr__,
       )
-      mdl = create_model("CheckPageHasTransactionsReturnType", inner=(types.PageHasTransactions, ...))
-      return coerce(mdl, raw.parsed())
+      return cast(types.PageHasTransactions, raw.cast_to(types, types))
     
     def ExtractFinancialSummaryData(
         self,
@@ -88,7 +77,7 @@ class BamlSyncClient:
     ) -> types.FinancialSummary:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -102,8 +91,7 @@ class BamlSyncClient:
         tb,
         __cr__,
       )
-      mdl = create_model("ExtractFinancialSummaryDataReturnType", inner=(types.FinancialSummary, ...))
-      return coerce(mdl, raw.parsed())
+      return cast(types.FinancialSummary, raw.cast_to(types, types))
     
     def ExtractStatementPageTransactions(
         self,
@@ -112,7 +100,7 @@ class BamlSyncClient:
     ) -> List[types.Transaction]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -126,8 +114,7 @@ class BamlSyncClient:
         tb,
         __cr__,
       )
-      mdl = create_model("ExtractStatementPageTransactionsReturnType", inner=(List[types.Transaction], ...))
-      return coerce(mdl, raw.parsed())
+      return cast(List[types.Transaction], raw.cast_to(types, types))
     
     def Hi(
         self,
@@ -136,7 +123,7 @@ class BamlSyncClient:
     ) -> str:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -150,8 +137,7 @@ class BamlSyncClient:
         tb,
         __cr__,
       )
-      mdl = create_model("HiReturnType", inner=(str, ...))
-      return coerce(mdl, raw.parsed())
+      return cast(str, raw.cast_to(types, types))
     
 
 
@@ -172,7 +158,7 @@ class BamlStreamClient:
     ) -> baml_py.BamlSyncStream[partial_types.PageHasTransactions, types.PageHasTransactions]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -188,13 +174,10 @@ class BamlStreamClient:
         __cr__,
       )
 
-      mdl = create_model("CheckPageHasTransactionsReturnType", inner=(types.PageHasTransactions, ...))
-      partial_mdl = create_model("CheckPageHasTransactionsPartialReturnType", inner=(partial_types.PageHasTransactions, ...))
-
       return baml_py.BamlSyncStream[partial_types.PageHasTransactions, types.PageHasTransactions](
         raw,
-        lambda x: coerce(partial_mdl, x),
-        lambda x: coerce(mdl, x),
+        lambda x: cast(partial_types.PageHasTransactions, x.cast_to(types, partial_types)),
+        lambda x: cast(types.PageHasTransactions, x.cast_to(types, types)),
         self.__ctx_manager.get(),
       )
     
@@ -205,7 +188,7 @@ class BamlStreamClient:
     ) -> baml_py.BamlSyncStream[partial_types.FinancialSummary, types.FinancialSummary]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -221,13 +204,10 @@ class BamlStreamClient:
         __cr__,
       )
 
-      mdl = create_model("ExtractFinancialSummaryDataReturnType", inner=(types.FinancialSummary, ...))
-      partial_mdl = create_model("ExtractFinancialSummaryDataPartialReturnType", inner=(partial_types.FinancialSummary, ...))
-
       return baml_py.BamlSyncStream[partial_types.FinancialSummary, types.FinancialSummary](
         raw,
-        lambda x: coerce(partial_mdl, x),
-        lambda x: coerce(mdl, x),
+        lambda x: cast(partial_types.FinancialSummary, x.cast_to(types, partial_types)),
+        lambda x: cast(types.FinancialSummary, x.cast_to(types, types)),
         self.__ctx_manager.get(),
       )
     
@@ -238,7 +218,7 @@ class BamlStreamClient:
     ) -> baml_py.BamlSyncStream[List[partial_types.Transaction], List[types.Transaction]]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -254,13 +234,10 @@ class BamlStreamClient:
         __cr__,
       )
 
-      mdl = create_model("ExtractStatementPageTransactionsReturnType", inner=(List[types.Transaction], ...))
-      partial_mdl = create_model("ExtractStatementPageTransactionsPartialReturnType", inner=(List[partial_types.Transaction], ...))
-
       return baml_py.BamlSyncStream[List[partial_types.Transaction], List[types.Transaction]](
         raw,
-        lambda x: coerce(partial_mdl, x),
-        lambda x: coerce(mdl, x),
+        lambda x: cast(List[partial_types.Transaction], x.cast_to(types, partial_types)),
+        lambda x: cast(List[types.Transaction], x.cast_to(types, types)),
         self.__ctx_manager.get(),
       )
     
@@ -271,7 +248,7 @@ class BamlStreamClient:
     ) -> baml_py.BamlSyncStream[Optional[str], str]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
-        tb = __tb__._tb
+        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
       else:
         tb = None
       __cr__ = baml_options.get("client_registry", None)
@@ -287,13 +264,10 @@ class BamlStreamClient:
         __cr__,
       )
 
-      mdl = create_model("HiReturnType", inner=(str, ...))
-      partial_mdl = create_model("HiPartialReturnType", inner=(Optional[str], ...))
-
       return baml_py.BamlSyncStream[Optional[str], str](
         raw,
-        lambda x: coerce(partial_mdl, x),
-        lambda x: coerce(mdl, x),
+        lambda x: cast(Optional[str], x.cast_to(types, partial_types)),
+        lambda x: cast(str, x.cast_to(types, types)),
         self.__ctx_manager.get(),
       )
     

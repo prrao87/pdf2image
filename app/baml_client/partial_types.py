@@ -16,9 +16,10 @@
 import baml_py
 from enum import Enum
 from pydantic import BaseModel, ConfigDict
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Literal
 
 from . import types
+from .types import Checked, Check
 
 ###############################################################################
 #
@@ -29,14 +30,10 @@ from . import types
 
 
 class EndingBalanceItem(BaseModel):
-    
-    
     date: Optional[str] = None
     amount: Optional[float] = None
 
 class FinancialSummary(BaseModel):
-    
-    
     bank_name: Optional[str] = None
     business_name: Optional[str] = None
     business_account_number: Optional[str] = None
@@ -45,14 +42,10 @@ class FinancialSummary(BaseModel):
     ending_balances: List["EndingBalanceItem"]
 
 class PageHasTransactions(BaseModel):
-    
-    
     page_number: Optional[int] = None
     has_transactions: Optional[bool] = None
 
 class Transaction(BaseModel):
-    
-    
     date: Optional[str] = None
     description: Optional[Union[Optional[str], Optional[None]]] = None
     amount: Optional[float] = None
