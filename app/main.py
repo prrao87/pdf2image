@@ -1,60 +1,66 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-
-# from dotenv import load_dotenv
-
-# load_dotenv()
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from pdf2image import convert_from_bytes
+from PIL import Image
+import io
+import base64
+from app.baml_client import b
+from baml_py import Image as BamlImage
 from typing import List
-import imghdr
-from baml_py import Image
-from baml_client import b
-from pydantic import BaseModel, Json
-from typing import Any
+import logging
 
-# to import from 2 directories up you'd use "from ..my_module import MyClass"
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+def convert_pdf_to_images(pdf_bytes: bytes) -> List[Image.Image]:
+    try:
+        return convert_from_bytes(pdf_bytes, dpi=200, fmt="png")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error converting PDF: {str(e)}")
 
 
-@app.get("/healthz")
-async def healthz():
-    return {"status": "ok"}
+def convert_to_images(content_type: str, file_bytes: bytes) -> List[Image.Image]:
+    if content_type == "application/pdf":
+        return convert_pdf_to_images(file_bytes)
+    elif content_type.startswith("image/"):
+        img = Image.open(io.BytesIO(file_bytes))
+        return [img]
+    else:
+        raise HTTPException(
+            status_code=415, detail=f"Unsupported file type: {content_type}"
+        )
 
 
-class ExtractResponse(BaseModel):
-    output: Json[Any]
+def img_to_baml_image(img: Image.Image) -> BamlImage:
+    buffer = io.BytesIO()
+    img.save(buffer, format=img.format or "PNG")
+    base64_str = base64.b64encode(buffer.getvalue()).decode()
+    return BamlImage.from_base64(
+        f"image/{img.format.lower() if img.format else 'png'}", base64_str
+    )
 
 
-@app.post("/extract/", response_model=ExtractResponse)
-async def upload_files(files: List[UploadFile] = File(...)):
-    file_names = []
-    output_data = {}
-    for file in files:
-        # Check if the file is an image
-        contents = await file.read()
-        file_type = imghdr.what(None, h=contents)
+@app.post("/extract")
+async def extract(file: UploadFile = File(...)):
+    try:
+        # Read file content
+        content = await file.read()
 
-        if file_type in ["png", "jpeg", "gif"]:
-            file_names.append(file.filename)
-            import base64
+        content_type = file.content_type or "application/pdf"
 
-            base64_image = base64.b64encode(contents).decode("utf-8")
-            image = Image.from_base64(
-                media_type=f"image/{file_type}", base64=base64_image
-            )
-            res = b.ExtractResume(
-                "Aaron is a software engineer at Google.\n He studied at Stanford University."
-            )
-            print(res)
-            # Process the image file
-            # TODO: Implement image processing logic
-        else:
-            raise HTTPException(
-                status_code=400,
-                detail=f"File {file.filename} is not a supported image format",
-            )
+        # Convert to PIL Images
+        images = convert_to_images(content_type, content)
 
-    return ExtractResponse(output="{}")
+        if not images:
+            raise HTTPException(status_code=400, detail="No images could be extracted")
+
+        # Convert first image to BAML Image
+        baml_image = img_to_baml_image(images[0])
+
+        # Call BAML function
+        result = b.ExtractFromImage(baml_image)
+
+        return {"result": result}
+
+    except Exception as e:
+        logging.error(f"Extraction error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))

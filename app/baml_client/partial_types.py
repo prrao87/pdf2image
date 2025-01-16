@@ -29,24 +29,5 @@ from .types import Checked, Check
 ###############################################################################
 
 
-class EndingBalanceItem(BaseModel):
-    date: Optional[str] = None
-    amount: Optional[float] = None
-
-class FinancialSummary(BaseModel):
-    bank_name: Optional[str] = None
-    business_name: Optional[str] = None
-    business_account_number: Optional[str] = None
-    business_address: Optional[str] = None
-    beginning_balance: Optional[float] = None
-    ending_balances: List["EndingBalanceItem"]
-
-class PageHasTransactions(BaseModel):
-    page_number: Optional[int] = None
-    has_transactions: Optional[bool] = None
-
-class Transaction(BaseModel):
-    date: Optional[str] = None
-    description: Optional[Union[Optional[str], Optional[None]]] = None
-    amount: Optional[float] = None
-    transaction_type: Optional[types.TransactionType] = None
+class Output(BaseModel):
+    summary: Optional[str] = None

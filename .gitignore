@@ -1,6 +1,6 @@
 .env
 
-*.pdf
+
 
 # python gitignore
 __pycache__

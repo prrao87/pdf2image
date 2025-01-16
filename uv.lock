@@ -50,16 +50,16 @@ wheels = [
 
 [[package]]
 name = "baml-py"
-version = "0.58.0"
+version = "0.72.1"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/ca/80b97b64f58df166d061931c28b2c29f2e808711f41e7571f6f290403e88/baml_py-0.58.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:38cff7544e872bd02feaf6b1710014b0b4b00754c3d9c3078df1adc4dea9d02b", size = 8873683 },
-    { url = "https://files.pythonhosted.org/packages/c2/a1/b1d19e763dd31415b1dde5095a07518377efb1b74fb7fdc561c922f4e0d5/baml_py-0.58.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:8e66df2cb32abfe9a3bc2ad4d2fb68798449bf2a8da976d2e2f74494a39f1bc6", size = 8329054 },
-    { url = "https://files.pythonhosted.org/packages/32/5e/8d985f52e8cfa781e80e78fc94376b25e40763d5bee88c0d9d18ed812f5c/baml_py-0.58.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7d42cdd221f8dff1fcd66ceafbb36bd83820525a0edb4689c485529a0b47cf0d", size = 11276418 },
-    { url = "https://files.pythonhosted.org/packages/9a/16/08c5d88e0ebbe70df16494fb024cc2549370bd164b6c3c0294a5e62618dc/baml_py-0.58.0-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:a2d29f216f330e5f085e8bba665d606d36a9135bc76627106d20f0b190162f4b", size = 11422075 },
-    { url = "https://files.pythonhosted.org/packages/d0/2c/b39850e021750e4f0821a7438efe2bf01e68898a5f40103be9821eb02cd0/baml_py-0.58.0-cp38-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:60a35cfbc17b063b21da4ad4316567972537560823e675922f2056d50d618bff", size = 11617540 },
-    { url = "https://files.pythonhosted.org/packages/d2/a8/1fd83aeef42207dd5ac509ee0d6b28d4aae8ad70f08f862bce5ad5143b2e/baml_py-0.58.0-cp38-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:5f8891b52f9d64506057b3f34ced3a6a4a559db88b27b22c5fdd8f3d121f56c1", size = 11297512 },
-    { url = "https://files.pythonhosted.org/packages/16/cc/e1de2f21137aebb3ba65f991995eb137c5b0b14f269366fe481d6f358d88/baml_py-0.58.0-cp38-abi3-win_amd64.whl", hash = "sha256:8c796eee963a565842972a0fe8f3c1cfe0de3e46a8dc3879582c764820755966", size = 9122404 },
+    { url = "https://files.pythonhosted.org/packages/62/e1/ea5a574ca6bfcb8f86c00d671025d7d3b3cf2c901f0b26415f06c642d184/baml_py-0.72.1-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:15eb94830a63e9fbcd3f2498cb8aa73ecf5ffa9d0c0ff5b70a140bac456c0be3", size = 11312005 },
+    { url = "https://files.pythonhosted.org/packages/57/25/fda485d8e534960d40992559aeeed976c9958dd77a0023e66f1dfa5c6498/baml_py-0.72.1-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:812ccfa39bdd9341a33e22a32147d7d00f9e3510f078cdf7a472955bffbfb141", size = 10173779 },
+    { url = "https://files.pythonhosted.org/packages/70/ba/2bfdedb611244161477bc86400965fc0c6610cd787de685463fa64f5a7a8/baml_py-0.72.1-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:61c4ec48ffc97821c4a4e34a43b036f3c4214aea52d34f4ddf22253f16e36319", size = 13611071 },
+    { url = "https://files.pythonhosted.org/packages/da/e6/222805ea3ce7cb78990da76e4684f9a99acc0ed787ac47bcd12e60594d22/baml_py-0.72.1-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:5b40a5abedc1533c91f229d145070aae000e742bcbadb4615ae976d6bb42e1a0", size = 13200314 },
+    { url = "https://files.pythonhosted.org/packages/ff/86/9cbb92a7ad2293d84f8fb449ae73f0f606ad7ff859f1b0aefecfcebeb4ef/baml_py-0.72.1-cp38-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:a74d56de034de706e04011f860eee5192e41051e6cce8f9ddf6445f96ebe0370", size = 13377952 },
+    { url = "https://files.pythonhosted.org/packages/6a/08/ee75247380ad6ec225082bc38d6a7af8355f7ab901d4b425aee658aeb8e7/baml_py-0.72.1-cp38-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:c30dd27a1f7ec01ec30c1ae242bbd0ae04b1da7819cebb025f203240c60cb7a3", size = 13628864 },
+    { url = "https://files.pythonhosted.org/packages/37/fe/da0592592ed722ce24d26a03699599411f395e155baf18bc07f9bbf65f64/baml_py-0.72.1-cp38-abi3-win_amd64.whl", hash = "sha256:ba81b76e381911a476323ac1858e0d9a87a1f9a033eb9ee047aed3f2d613c37c", size = 11173942 },
 ]
 
 [[package]]
@@ -77,7 +77,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "baml-py", specifier = ">=0.58.0" },
+    { name = "baml-py", specifier = ">=0.72.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.114.0" },
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "pdf2image", specifier = ">=1.17.0" },

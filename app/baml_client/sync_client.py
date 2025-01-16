@@ -47,11 +47,11 @@ class BamlSyncClient:
       return self.__stream_client
 
     
-    def CheckPageHasTransactions(
+    def ExtractFromImage(
         self,
-        statement_page: baml_py.Image,
+        img: baml_py.Image,
         baml_options: BamlCallOptions = {},
-    ) -> types.PageHasTransactions:
+    ) -> types.Output:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
         tb = __tb__._tb # type: ignore (we know how to use this private attribute)
@@ -60,84 +60,15 @@ class BamlSyncClient:
       __cr__ = baml_options.get("client_registry", None)
 
       raw = self.__runtime.call_function_sync(
-        "CheckPageHasTransactions",
+        "ExtractFromImage",
         {
-          "statement_page": statement_page,
+          "img": img,
         },
         self.__ctx_manager.get(),
         tb,
         __cr__,
       )
-      return cast(types.PageHasTransactions, raw.cast_to(types, types))
-    
-    def ExtractFinancialSummaryData(
-        self,
-        statements: Union[List[baml_py.Image], List[str]],
-        baml_options: BamlCallOptions = {},
-    ) -> types.FinancialSummary:
-      __tb__ = baml_options.get("tb", None)
-      if __tb__ is not None:
-        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
-      else:
-        tb = None
-      __cr__ = baml_options.get("client_registry", None)
-
-      raw = self.__runtime.call_function_sync(
-        "ExtractFinancialSummaryData",
-        {
-          "statements": statements,
-        },
-        self.__ctx_manager.get(),
-        tb,
-        __cr__,
-      )
-      return cast(types.FinancialSummary, raw.cast_to(types, types))
-    
-    def ExtractStatementPageTransactions(
-        self,
-        statement_page: baml_py.Image,
-        baml_options: BamlCallOptions = {},
-    ) -> List[types.Transaction]:
-      __tb__ = baml_options.get("tb", None)
-      if __tb__ is not None:
-        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
-      else:
-        tb = None
-      __cr__ = baml_options.get("client_registry", None)
-
-      raw = self.__runtime.call_function_sync(
-        "ExtractStatementPageTransactions",
-        {
-          "statement_page": statement_page,
-        },
-        self.__ctx_manager.get(),
-        tb,
-        __cr__,
-      )
-      return cast(List[types.Transaction], raw.cast_to(types, types))
-    
-    def Hi(
-        self,
-        input: str,
-        baml_options: BamlCallOptions = {},
-    ) -> str:
-      __tb__ = baml_options.get("tb", None)
-      if __tb__ is not None:
-        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
-      else:
-        tb = None
-      __cr__ = baml_options.get("client_registry", None)
-
-      raw = self.__runtime.call_function_sync(
-        "Hi",
-        {
-          "input": input,
-        },
-        self.__ctx_manager.get(),
-        tb,
-        __cr__,
-      )
-      return cast(str, raw.cast_to(types, types))
+      return cast(types.Output, raw.cast_to(types, types))
     
 
 
@@ -151,11 +82,11 @@ class BamlStreamClient:
       self.__ctx_manager = ctx_manager
 
     
-    def CheckPageHasTransactions(
+    def ExtractFromImage(
         self,
-        statement_page: baml_py.Image,
+        img: baml_py.Image,
         baml_options: BamlCallOptions = {},
-    ) -> baml_py.BamlSyncStream[partial_types.PageHasTransactions, types.PageHasTransactions]:
+    ) -> baml_py.BamlSyncStream[partial_types.Output, types.Output]:
       __tb__ = baml_options.get("tb", None)
       if __tb__ is not None:
         tb = __tb__._tb # type: ignore (we know how to use this private attribute)
@@ -164,9 +95,9 @@ class BamlStreamClient:
       __cr__ = baml_options.get("client_registry", None)
 
       raw = self.__runtime.stream_function_sync(
-        "CheckPageHasTransactions",
+        "ExtractFromImage",
         {
-          "statement_page": statement_page,
+          "img": img,
         },
         None,
         self.__ctx_manager.get(),
@@ -174,100 +105,10 @@ class BamlStreamClient:
         __cr__,
       )
 
-      return baml_py.BamlSyncStream[partial_types.PageHasTransactions, types.PageHasTransactions](
+      return baml_py.BamlSyncStream[partial_types.Output, types.Output](
         raw,
-        lambda x: cast(partial_types.PageHasTransactions, x.cast_to(types, partial_types)),
-        lambda x: cast(types.PageHasTransactions, x.cast_to(types, types)),
-        self.__ctx_manager.get(),
-      )
-    
-    def ExtractFinancialSummaryData(
-        self,
-        statements: Union[List[baml_py.Image], List[str]],
-        baml_options: BamlCallOptions = {},
-    ) -> baml_py.BamlSyncStream[partial_types.FinancialSummary, types.FinancialSummary]:
-      __tb__ = baml_options.get("tb", None)
-      if __tb__ is not None:
-        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
-      else:
-        tb = None
-      __cr__ = baml_options.get("client_registry", None)
-
-      raw = self.__runtime.stream_function_sync(
-        "ExtractFinancialSummaryData",
-        {
-          "statements": statements,
-        },
-        None,
-        self.__ctx_manager.get(),
-        tb,
-        __cr__,
-      )
-
-      return baml_py.BamlSyncStream[partial_types.FinancialSummary, types.FinancialSummary](
-        raw,
-        lambda x: cast(partial_types.FinancialSummary, x.cast_to(types, partial_types)),
-        lambda x: cast(types.FinancialSummary, x.cast_to(types, types)),
-        self.__ctx_manager.get(),
-      )
-    
-    def ExtractStatementPageTransactions(
-        self,
-        statement_page: baml_py.Image,
-        baml_options: BamlCallOptions = {},
-    ) -> baml_py.BamlSyncStream[List[partial_types.Transaction], List[types.Transaction]]:
-      __tb__ = baml_options.get("tb", None)
-      if __tb__ is not None:
-        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
-      else:
-        tb = None
-      __cr__ = baml_options.get("client_registry", None)
-
-      raw = self.__runtime.stream_function_sync(
-        "ExtractStatementPageTransactions",
-        {
-          "statement_page": statement_page,
-        },
-        None,
-        self.__ctx_manager.get(),
-        tb,
-        __cr__,
-      )
-
-      return baml_py.BamlSyncStream[List[partial_types.Transaction], List[types.Transaction]](
-        raw,
-        lambda x: cast(List[partial_types.Transaction], x.cast_to(types, partial_types)),
-        lambda x: cast(List[types.Transaction], x.cast_to(types, types)),
-        self.__ctx_manager.get(),
-      )
-    
-    def Hi(
-        self,
-        input: str,
-        baml_options: BamlCallOptions = {},
-    ) -> baml_py.BamlSyncStream[Optional[str], str]:
-      __tb__ = baml_options.get("tb", None)
-      if __tb__ is not None:
-        tb = __tb__._tb # type: ignore (we know how to use this private attribute)
-      else:
-        tb = None
-      __cr__ = baml_options.get("client_registry", None)
-
-      raw = self.__runtime.stream_function_sync(
-        "Hi",
-        {
-          "input": input,
-        },
-        None,
-        self.__ctx_manager.get(),
-        tb,
-        __cr__,
-      )
-
-      return baml_py.BamlSyncStream[Optional[str], str](
-        raw,
-        lambda x: cast(Optional[str], x.cast_to(types, partial_types)),
-        lambda x: cast(str, x.cast_to(types, types)),
+        lambda x: cast(partial_types.Output, x.cast_to(types, partial_types)),
+        lambda x: cast(types.Output, x.cast_to(types, types)),
         self.__ctx_manager.get(),
       )
     
