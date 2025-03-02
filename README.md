@@ -1,4 +1,4 @@
-# PDF and Image Extraction API
+# PDF and Image Data Extraction
 
 This project provides a FastAPI backend for transforming PDFs into images for the purposes of structured
 data extraction via BAML. It includes a Streamlit frontend for easy interaction and usage.
