@@ -1,12 +1,11 @@
 import requests
 import os
 
-
 # Add a pdf in tests/files/cambodia-visa.pdf
-# Then run with uv run python test_endpoint.py
-# Or if you use infisical for secrets:
+# Then run with uv run python test_extract.py, OR uv run pytest -v
+# If you use infisical for secrets:
 # tests % uv run -- infisical run --env=test -- python test_endpoint.py
-# Make sure the local server is running.
+# Make sure the local server is running before running the tests.
 def test_extract_pdf_live():
     # Get the path relative to the project root
     file_path = os.path.join("files", "cambodia-visa.pdf")
