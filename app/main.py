@@ -2,11 +2,17 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from pdf2image import convert_from_bytes
 from PIL import Image
 import io
+import os
 import base64
-from app.baml_client import b
+from app.baml_client import b, reset_baml_env_vars
 from baml_py import Image as BamlImage
 from typing import List
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
+os.environ["BAML_LOG"] = "WARN"
+reset_baml_env_vars(dict(os.environ))
 
 app = FastAPI()
 
@@ -39,6 +45,18 @@ def img_to_baml_image(img: Image.Image) -> BamlImage:
     )
 
 
+@app.get("/")
+async def root():
+    return {
+        "name": "PDF and Image Extraction API",
+        "description": "This API converts PDFs and images to a format suitable for data extraction using BAML.",
+        "endpoints": {
+            "/": "This information",
+            "/extract": "Upload a PDF or image file to extract data using BAML"
+        }
+    }
+
+
 @app.post("/extract")
 async def extract(file: UploadFile = File(...)):
     try:
@@ -53,13 +71,24 @@ async def extract(file: UploadFile = File(...)):
         if not images:
             raise HTTPException(status_code=400, detail="No images could be extracted")
 
-        # Convert first image to BAML Image
+        # Convert first image to BAML Image for extraction
         baml_image = img_to_baml_image(images[0])
 
         # Call BAML function
         result = b.ExtractFromImage(baml_image)
+        
+        # Convert all images to base64 for response
+        image_data = []
+        for i, img in enumerate(images):
+            buffer = io.BytesIO()
+            img.save(buffer, format="PNG")
+            base64_str = base64.b64encode(buffer.getvalue()).decode()
+            image_data.append({
+                "page": i+1,
+                "image": base64_str
+            })
 
-        return {"result": result}
+        return {"result": result, "images": image_data}
 
     except Exception as e:
         logging.error(f"Extraction error: {str(e)}")

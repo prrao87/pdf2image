@@ -7,7 +7,7 @@ client<llm> GPT4o {
     api_key env.OPENAI_API_KEY
   }
 }
-  
+
 client<llm> Sonnet {
   provider anthropic
   options {

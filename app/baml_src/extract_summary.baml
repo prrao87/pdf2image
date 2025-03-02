@@ -4,7 +4,7 @@ class Output {
 }
 
 function ExtractFromImage(img: image) -> Output {
-  client GPT4o
+  client FastOpenAI
   prompt #"
     Extract from this image
     {{ ctx.output_format }}

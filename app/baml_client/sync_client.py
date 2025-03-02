@@ -2,7 +2,7 @@
 #
 #  Welcome to Baml! To use this generated code, please run the following:
 #
-#  $ pip install baml
+#  $ pip install baml-py
 #
 ###############################################################################
 
@@ -68,7 +68,7 @@ class BamlSyncClient:
         tb,
         __cr__,
       )
-      return cast(types.Output, raw.cast_to(types, types))
+      return cast(types.Output, raw.cast_to(types, types, partial_types, False))
     
 
 
@@ -107,8 +107,8 @@ class BamlStreamClient:
 
       return baml_py.BamlSyncStream[partial_types.Output, types.Output](
         raw,
-        lambda x: cast(partial_types.Output, x.cast_to(types, partial_types)),
-        lambda x: cast(types.Output, x.cast_to(types, types)),
+        lambda x: cast(partial_types.Output, x.cast_to(types, types, partial_types, True)),
+        lambda x: cast(types.Output, x.cast_to(types, types, partial_types, False)),
         self.__ctx_manager.get(),
       )
     
